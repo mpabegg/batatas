@@ -1,3 +1,7 @@
 get '/lists/:id' do
-  "Hello, you asked for List with ID #{params[:id]}"
+	json List[params[:id]]
+end
+
+get '/lists/?' do
+	json List.all
 end

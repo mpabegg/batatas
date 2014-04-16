@@ -1,10 +1,7 @@
-require 'sinatra'
+require './database'
+require 'sinatra/json'
+require 'json'
 
-configure do
-  # Load up database and such
-end
-
+Dir[File.dirname(__FILE__) + '/app/models/**'].each { |model| require model }
 # Load all route files
-Dir[File.dirname(__FILE__) + '/app/routes/**'].each do |route|
-  require route
-end
+Dir[File.dirname(__FILE__) + '/app/routes/**'].each { |route| require route }
