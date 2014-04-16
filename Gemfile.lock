@@ -6,6 +6,7 @@ GEM
     bond (0.4.3)
     diff-lcs (1.2.5)
     multi_json (1.9.2)
+    pg (0.17.1)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
@@ -57,6 +58,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  pg
   rack-test
   rspec
   sequel

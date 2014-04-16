@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'sinatra'
 gem 'sequel'
 gem 'sinatra-sequel'
-gem 'sqlite3'
 gem 'sinatra-contrib'
+gem 'pg'
 
 group :test do
 	gem 'rspec'
@@ -12,6 +13,7 @@ group :test do
 end
 
 group :development do
+	gem 'sqlite3'
 	gem 'shotgun'
 	gem 'tux'
 end
