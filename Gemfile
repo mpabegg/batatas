@@ -8,12 +8,15 @@ gem 'sinatra-contrib'
 gem 'pg'
 
 group :test do
-	gem 'rspec'
-	gem 'rack-test'
+  gem 'rspec'
+  gem 'rack-test'
 end
 
 group :development do
-	gem 'sqlite3'
-	gem 'shotgun'
-	gem 'tux'
+  gem 'sqlite3'
+  gem 'shotgun'
+  gem 'tux'
+  gem 'guard'
+  gem 'guard-rspec', require: false
+  gem 'terminal-notifier-guard'
 end
