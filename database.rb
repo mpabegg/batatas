@@ -13,6 +13,6 @@ migration 'create the items table' do
   database.create_table :items do
     primary_key :id
     text        :name, :null => false
-    foreing_key :list_id, :lists => :id
+    foreign_key :list_id, :lists => :id
   end
 end
