@@ -1,5 +1,7 @@
-get '/lists/:id' do
-  json List[params[:id]]
+get '/lists/:id/?' do
+  list = List[params[:id]]
+  halt 404 unless list
+  json list
 end
 
 get '/lists/?' do
