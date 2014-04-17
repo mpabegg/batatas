@@ -14,7 +14,6 @@ describe 'GET lists/:id' do
 
     it 'responds with success' do
       get "/lists/#{list_id}"
-
       expect(last_response.status).to be 200
     end
 
@@ -28,12 +27,19 @@ describe 'GET lists/:id' do
   end
 
   context 'when list does not exist' do
-    it 'responds with not found' do
+    before :each do 
       List.stub(:[]).and_return(nil)
+    end
 
+    it 'responds with not found' do
       get "/lists/some"
-
       expect(last_response.status).to be 404
+    end
+
+    it 'responds with an empty body' do
+      get "/lists/some"
+      # expect(last_response.body).to be_empty
+      expect(last_response.body).to eq ''
     end
   end
 end
