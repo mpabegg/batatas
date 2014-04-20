@@ -7,3 +7,8 @@ end
 get '/lists/?' do
   json List.all
 end
+
+post '/lists/?' do
+  List.create(:name => '')
+  status 201
+end

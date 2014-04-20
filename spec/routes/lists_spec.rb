@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'GET lists/:id' do
-
   context 'when list exists' do
     let(:the_list) { List.new }
     let(:list_to_json) { '{}' }
@@ -27,19 +26,18 @@ describe 'GET lists/:id' do
   end
 
   context 'when list does not exist' do
-    before :each do 
+    before :each do
       List.stub(:[]).and_return(nil)
     end
 
     it 'responds with not found' do
-      get "/lists/some"
+      get '/lists/some'
       expect(last_response.status).to be 404
     end
 
     it 'responds with an empty body' do
-      get "/lists/some"
-      # expect(last_response.body).to be_empty
-      expect(last_response.body).to eq ''
+      get '/lists/some'
+      expect(last_response.body).to be_empty
     end
   end
 end
