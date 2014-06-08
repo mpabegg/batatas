@@ -1,4 +1,4 @@
-class Item < Sequel::Model
+class Product < Sequel::Model
   Sequel::Model.plugin :json_serializer
 
   many_to_one :list

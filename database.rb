@@ -11,17 +11,17 @@ migration 'create the lists table' do
   end
 end
 
-migration 'create the items table' do
-  database.create_table :items do
+migration 'create the products table' do
+  database.create_table :products do
     primary_key :id
     text :name, null: false
-    foreign_key :list_id
+    timestamp :created_at, null: false
   end
 end
 
 migration 'create the list_items table' do
   database.create_table :list_items do
-    primary_key [:list_id, :item_id], name: 'list_item_pk'
+    primary_key [:list_id, :products_id], name: 'list_item_pk'
     foreign_key :list_id, null: false
     foreign_key :item_id, null: false
     Fixnum :amount

@@ -4,7 +4,6 @@ ruby '2.0.0'
 gem 'sinatra'
 gem 'sequel'
 gem 'sinatra-sequel'
-gem 'sinatra-contrib'
 gem 'pg'
 
 group :test do

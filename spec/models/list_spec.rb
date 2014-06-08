@@ -4,8 +4,8 @@ describe List do
   let(:list_name) { 'List Name' }
   let(:april_1st) { Time.parse('2014-04-01') }
 
-  let(:tomatoes) { ListItem.new(item: Item.create(name: 'Tomato'), amount: 2) }
-  let(:potatoes) { ListItem.new(item: Item.create(name: 'Potato'), amount: 5) }
+  let(:tomatoes) { ListItem.new(item: Product.create(name: 'Tomato'), amount: 2) }
+  let(:potatoes) { ListItem.new(item: Product.create(name: 'Potato'), amount: 5) }
 
   let(:subject) { List.new(name: list_name) }
 
