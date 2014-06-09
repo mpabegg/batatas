@@ -4,8 +4,8 @@ describe List do
   let(:list_name) { 'List Name' }
   let(:april_1st) { Time.parse('2014-04-01') }
 
-  let(:tomatoes) { ListItem.new(item: Product.create(name: 'Tomato'), amount: 2) }
-  let(:potatoes) { ListItem.new(item: Product.create(name: 'Potato'), amount: 5) }
+  let(:tomatoes) { Item.new(product: Product.create(name: 'Tomato'), amount: 2) }
+  let(:potatoes) { Item.new(product: Product.create(name: 'Potato'), amount: 5) }
 
   let(:subject) { List.new(name: list_name) }
 
@@ -13,8 +13,8 @@ describe List do
     Time.stub(:now).and_return(april_1st)
     subject.save
 
-    subject.add_list_item(potatoes)
-    subject.add_list_item(tomatoes)
+    subject.add_item(potatoes)
+    subject.add_item(tomatoes)
   end
 
   it 'has a name' do
@@ -26,7 +26,7 @@ describe List do
   end
 
   it 'has items on it' do
-    expect(subject.list_items).to include tomatoes
-    expect(subject.list_items).to include potatoes
+    expect(subject.items).to include tomatoes
+    expect(subject.items).to include potatoes
   end
 end

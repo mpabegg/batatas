@@ -19,11 +19,11 @@ migration 'create the products table' do
   end
 end
 
-migration 'create the list_items table' do
-  database.create_table :list_items do
-    primary_key [:list_id, :products_id], name: 'list_item_pk'
+migration 'create the items table' do
+  database.create_table :items do
+    primary_key [:list_id, :product_id], name: 'item_pk'
     foreign_key :list_id, null: false
-    foreign_key :item_id, null: false
+    foreign_key :product_id, null: false
     Fixnum :amount
   end
 end
