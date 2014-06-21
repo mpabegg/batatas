@@ -1,5 +1,10 @@
 class List < Sequel::Model
-  Sequel::Model.plugin :json_serializer
-
   one_to_many :items
+
+  def to_json
+    {
+        name: name,
+        items: items.map(&:to_json)
+    }
+  end
 end
