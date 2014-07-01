@@ -1,5 +1,9 @@
 class Product < Sequel::Model
   Sequel::Model.plugin :json_serializer
 
-  many_to_one :list
+  def to_json
+    {
+        name: name
+    }
+  end
 end
