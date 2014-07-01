@@ -10,3 +10,7 @@ helpers do
     request.logger
   end
 end
+
+before do
+  content_type 'application/json'
+end

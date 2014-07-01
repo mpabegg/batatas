@@ -9,6 +9,8 @@ get '/lists/?' do
 end
 
 post '/lists/?' do
-  List.create(:name => '')
+  params.merge!(JSON.parse(request.body.read))
+  list = List.create(:name => params['name'])
+  headers({'Location' => "/lists/#{list.id}"})
   status 201
 end
