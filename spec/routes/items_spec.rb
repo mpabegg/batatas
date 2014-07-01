@@ -8,6 +8,6 @@ describe Item do
   end
 
   describe 'POST /lists/:list_id/items' do
-    
+
   end
 end

@@ -1,1 +1,3 @@
-require 'spec_helper'
+get '/items/:id/?' do
+  json {}
+end
