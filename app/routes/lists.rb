@@ -5,7 +5,7 @@ get '/lists/:id/?' do
 end
 
 get '/lists/?' do
-  json List.all
+  json List.all.map(&:to_json)
 end
 
 post '/lists/?' do

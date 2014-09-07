@@ -1,9 +1,34 @@
 require 'spec_helper'
 
+
+def add_items_to_list
+  list.add_item(product: potato, amount: 3)
+  list.add_item(product: tomato, amount: 5)
+  list.save
+end
+
 describe List do
+  let(:potato) { Product.create(name: 'Potato') }
+  let(:tomato) { Product.create(name: 'tomato') }
+  let (:list) { List.create(name: 'A Shopping List') }
 
   before :each do
     List.each(&:destroy)
+  end
+
+  describe 'GET /lists' do
+
+    it 'responds with success' do
+      get '/lists'
+      expect(last_response.status).to be 200
+    end
+
+    it 'responds with list of lists' do
+      add_items_to_list
+
+      get '/lists'
+      expect(JSON.parse(last_response.body)).to eq JSON.parse("[#{full_list_body}]")
+    end
   end
 
   describe 'GET /lists/:id' do
@@ -20,7 +45,7 @@ describe List do
     end
 
     context 'when list exists' do
-      let(:list) { List.create(name: 'A Shopping List') }
+
 
       it 'responds with success' do
         get "/lists/#{list.id}"
@@ -37,27 +62,15 @@ describe List do
       end
 
       context 'and has items' do
-
-        let(:potato) { Product.create(name: 'Potato') }
-        let(:tomato) { Product.create(name: 'tomato') }
-
         before :each do
-          list.add_item(product: potato, amount: 3)
-          list.add_item(product: tomato, amount: 5)
-          list.save
+          add_items_to_list
         end
 
         it 'responds with every item' do
           get "/lists/#{list.id}"
 
-          expected_body = '{
-          "name": "A Shopping List",
-          "items": [
-            { "name": "Potato", "amount": 3 },
-            { "name": "tomato", "amount": 5 }
-          ]
-        }'
-          expect(JSON.parse(last_response.body)).to eq JSON.parse(expected_body)
+
+          expect(JSON.parse(last_response.body)).to eq JSON.parse(full_list_body)
         end
       end
     end
@@ -78,4 +91,15 @@ describe List do
       expect(last_response.headers['Location']).to match /\/lists\/\d+/
     end
   end
+end
+
+private
+def full_list_body
+  '{
+    "name": "A Shopping List",
+    "items": [
+      { "name": "Potato", "amount": 3 },
+      { "name": "tomato", "amount": 5 }
+    ]
+  }'
 end
