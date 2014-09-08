@@ -10,7 +10,7 @@ end
 
 post '/products/?' do
   params.merge!(JSON.parse(request.body.read))
-  product = Product.create(:name => params['name'])
+  product = Product.create(name: params['name'])
   headers({'Location' => "/products/#{product.id}"})
   status 201
 end

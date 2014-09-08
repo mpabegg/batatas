@@ -26,9 +26,7 @@ describe Item do
       let(:list) { List.create(name: 'Cheesecake') }
 
       context 'and body is empty' do
-        xit 'responds with unprocessable entity' do
-
-        end
+        it 'responds with unprocessable entity'
       end
 
       it 'responds with no content' do
