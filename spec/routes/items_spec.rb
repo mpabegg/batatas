@@ -1,38 +1,43 @@
 require 'spec_helper'
 
 describe Item do
-
-  before :each do
-    List.each(&:destroy)
-    Product.each(&:destroy)
-  end
-
   describe 'POST /lists/:list_id/items' do
+    let(:options) { {'CONTENT_TYPE' => 'application/json'} }
     context 'when list does not exist' do
       it 'responds with not found' do
-        post '/lists/blah/items/', {}, {'CONTENT_TYPE' => 'application/json'}
+        post '/lists/blah/items/', {}, options
 
-        expect(last_response.status).to be 404
+        expect(last_response.status).to eq 404
       end
 
       it 'responds with empty body' do
-        post '/lists/blah/items/', {}, {'CONTENT_TYPE' => 'application/json'}
+        post '/lists/blah/items/', {}, options
 
         expect(last_response.body).to eq ''
       end
     end
 
     context 'when list exists' do
+
       let(:list) { List.create(name: 'Cheesecake') }
 
-      context 'and body is empty' do
-        it 'responds with unprocessable entity'
+      it 'responds with no content' do
+        post "/lists/#{list.id}/items/", {}, options
+        expect(last_response.status).to eq 201
       end
 
-      it 'responds with no content' do
-        post "/lists/#{list.id}/items/", {}, {'CONTENT_TYPE' => 'application/json'}
+      it 'responds with emtpy body' do
+        post "/lists/#{list.id}/items/", {}, options
+        expect(last_response.body).to eq ''
+      end
 
-        expect(last_response.status).to be 201
+      it 'adds the item to the list' do
+        post "/lists/#{list.id}/items/", [{name: 'Cream Cheese', amount: 1}, {name: 'Lime', amount: 3}], options
+
+        expect(list.reload.items).to eq [
+            Item.new(list: list, product: Product.create(name: 'Cream Cheese'), amount: 1, bought: false),
+            Item.new(list: list, product: Product.create(name: 'Lime'), amount: 3, bought: false)
+        ]
       end
     end
   end
