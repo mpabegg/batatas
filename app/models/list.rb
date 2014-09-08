@@ -10,6 +10,7 @@ class List < Sequel::Model
 
   def to_json
     {
+        id: id,
         name: name,
         items: items.map(&:to_json)
     }

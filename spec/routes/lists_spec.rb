@@ -50,7 +50,7 @@ describe List do
           it 'responds with list name and no items' do
             get "/lists/#{list.id}"
 
-            expect(JSON.parse(last_response.body)).to eq JSON.parse('{ "name" : "A Shopping List", "items": [] }')
+            expect(JSON.parse(last_response.body)).to eq JSON.parse('{"id": 1, "name" : "A Shopping List", "items": [] }')
           end
         end
 
@@ -97,6 +97,7 @@ end
 private
 def full_list_body
   '{
+    "id": 1,
     "name": "A Shopping List",
     "items": [
       { "name": "potato", "amount": 3, "bought": false },
