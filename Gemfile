@@ -6,6 +6,7 @@ gem 'sinatra-contrib'
 gem 'sequel'
 gem 'sinatra-sequel'
 gem 'pg'
+gem 'rake'
 
 group :test do
   gem 'rspec'
