@@ -5,7 +5,8 @@ class Item < Sequel::Model
   def to_json
     {
         name: product.name,
-        amount: amount
+        amount: amount,
+        bought: bought
     }
   end
 end

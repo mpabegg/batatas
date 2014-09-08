@@ -88,7 +88,8 @@ describe List do
     it 'adds items to the list' do
       post '/lists', full_list_body, options
 
-      expect(List.first.items).to eq([Item.new(product: @potato, amount: 3, list: List.first), Item.new(product: @tomato, amount: 5, list: List.first)])
+      expect(List.first.items).to eq ([Item.new(product: @potato, amount: 3, list: List.first, bought: false),
+                                       Item.new(product: @tomato, amount: 5, list: List.first, bought: true)])
     end
   end
 end
@@ -98,15 +99,15 @@ def full_list_body
   '{
     "name": "A Shopping List",
     "items": [
-      { "name": "potato", "amount": 3 },
-      { "name": "tomato", "amount": 5 }
+      { "name": "potato", "amount": 3, "bought": false },
+      { "name": "tomato", "amount": 5, "bought": true }
     ]
   }'
 end
 
 def add_items_to_list
   list.add_item(product: @potato, amount: 3)
-  list.add_item(product: @tomato, amount: 5)
+  list.add_item(product: @tomato, amount: 5, bought: true)
   list.save
 end
 

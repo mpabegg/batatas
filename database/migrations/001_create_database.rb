@@ -1,8 +1,6 @@
 require 'sinatra'
 require 'sinatra/sequel'
 
-
-
 Sequel.migration do
   up do
     create_table :lists do

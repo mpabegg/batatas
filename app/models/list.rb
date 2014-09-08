@@ -3,7 +3,7 @@ class List < Sequel::Model
 
   def add(items)
     items.each do |item|
-      add_item(product: Product.with_name(item['name']), amount: item['amount'])
+      add_item(product: Product.with_name(item['name']), amount: item['amount'], bought: item['bought'])
     end
     save
   end
