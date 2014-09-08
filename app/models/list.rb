@@ -2,11 +2,10 @@ class List < Sequel::Model
   one_to_many :items
 
   def add(items)
-    items.each do |item|
-      add_item(product: Product.with_name(item['name']), amount: item['amount'], bought: item['bought'])
-    end
+    items.each { |item| add_item(from_json(item)) }
     save
   end
+
 
   def to_json
     {
@@ -14,5 +13,12 @@ class List < Sequel::Model
         name: name,
         items: items.map(&:to_json)
     }
+  end
+
+  private
+  def from_json(item)
+    options = {product: Product.with_name(item['name']), amount: item['amount']}
+    options[:bought] = item['bought'] if item['bought']
+    options
   end
 end
