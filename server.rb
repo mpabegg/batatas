@@ -25,9 +25,11 @@ unless ENV['RACK_ENV'] == 'production'
                            else
                              "?#{request.query_string}"
                            end
+
     logger.info(
         "Starting #{request.request_method} #{request.path}#{request_query_string} for #{request.ip}"
     )
+    logger.info("Request Body: #{request.body.read}")
   end
 
   after do
