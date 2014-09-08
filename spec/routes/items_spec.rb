@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Item do
   describe 'POST /lists/:list_id/items' do
     let(:options) { {'CONTENT_TYPE' => 'application/json'} }
+
     context 'when list does not exist' do
       it 'responds with not found' do
         post '/lists/blah/items/', '{}', options
@@ -37,7 +38,7 @@ describe Item do
 
         post "/lists/#{list.id}/items/", post_body, options
 
-        
+
         items = [
             Item.new(list: list, product: cream_cheese, amount: 1, bought: false),
             Item.new(list: list, product: lime, amount: 3, bought: false)

@@ -15,4 +15,5 @@ post '/lists/?' do
 
   headers({'Location' => "/lists/#{list.id}"})
   status 201
+  json list.to_json
 end

@@ -91,6 +91,11 @@ describe List do
       expect(List.first.items).to eq ([Item.new(product: @potato, amount: 3, list: List.first, bought: false),
                                        Item.new(product: @tomato, amount: 5, list: List.first, bought: true)])
     end
+
+    it 'responds with the created list' do
+      post '/lists', full_list_body, options
+      expect(JSON.parse(last_response.body)).to eq created_response
+    end
   end
 end
 
@@ -104,6 +109,16 @@ def full_list_body
       { "name": "tomato", "amount": 5, "bought": true }
     ]
   }'
+end
+
+def created_response
+  {
+      "id" => 1,
+      "name" => "A Shopping List",
+      "items" => [
+          {"name" => "potato", "amount" => 3, "bought" => false},
+          {"name" => "tomato", "amount" => 5, "bought" => true}]
+  }
 end
 
 def add_items_to_list
