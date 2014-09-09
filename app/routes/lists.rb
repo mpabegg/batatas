@@ -9,11 +9,13 @@ get '/lists/?' do
 end
 
 post '/lists/?' do
-  params.merge!(JSON.parse(request.body.read))
+  body = request.body.read
+  logger.info ("Request Body: #{body}")
+  params.merge!(JSON.parse(body))
   list = List.create(:name => params['name'])
   list.add(params['items']) if params['items']
 
   headers({'Location' => "/lists/#{list.id}"})
-  status 201
+      status 201
   json list.to_json
 end

@@ -9,7 +9,9 @@ get '/products/?' do
 end
 
 post '/products/?' do
-  params.merge!(JSON.parse(request.body.read))
+  body = request.body.read
+  logger.info ("Request Body: #{body}")
+  params.merge!(JSON.parse(body))
   product = Product.create(name: params['name'])
   headers({'Location' => "/products/#{product.id}"})
   status 201
