@@ -2,6 +2,7 @@ class List < Sequel::Model
   one_to_many :items
 
   def add(items)
+    items = [items].flatten
     items.each { |item| add_item(from_json(item)) }
     save
   end

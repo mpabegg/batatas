@@ -23,12 +23,12 @@ describe Item do
       let(:list) { List.create(name: 'Cheesecake') }
 
       it 'responds with no content' do
-        post "/lists/#{list.id}/items/", '{}', options
+        post "/lists/#{list.id}/items/", post_body, options
         expect(last_response.status).to eq 201
       end
 
       it 'responds with emtpy body' do
-        post "/lists/#{list.id}/items/", '{}', options
+        post "/lists/#{list.id}/items/", post_body, options
         expect(last_response.body).to eq ''
       end
 
@@ -40,8 +40,8 @@ describe Item do
 
 
         items = [
-            Item.new(list: list, product: cream_cheese, amount: 1, bought: false),
-            Item.new(list: list, product: lime, amount: 3, bought: false)
+            Item.new(list: list, product: cream_cheese, amount: "1", bought: false),
+            Item.new(list: list, product: lime, amount: "3", bought: false)
         ]
         expect(list.items).to eq items
       end
@@ -50,9 +50,11 @@ describe Item do
 end
 
 private
+
+
 def post_body
-  '[
-      {"name": "Cream Cheese", "amount": 1},
-      {"name": "Lime", "amount": 3}
-  ]'
+  JSON.generate([
+                    {name: "Cream Cheese", amount: "1"},
+                    {name: "Lime", amount: "3"}
+                ])
 end

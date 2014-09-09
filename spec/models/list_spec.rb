@@ -29,4 +29,15 @@ describe List do
     expect(subject.items).to include tomatoes
     expect(subject.items).to include potatoes
   end
+
+  it 'adds an array of items' do
+    subject.add([{"amount" => 1, "bought" => false, "name" => "asdgsadg"}])
+
+    expect(subject.items.length).to eq 3
+  end
+  it 'adds a single item' do
+    subject.add({"amount" => 1, "bought" => false, "name" => "asdgsadg"})
+
+    expect(subject.items.length).to eq 3
+  end
 end
