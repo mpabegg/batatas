@@ -10,4 +10,13 @@ class Item < Sequel::Model
         bought: bought
     }
   end
+
+  def buy
+    set(bought: true)
+    save
+  end
+
+  def bought?
+    bought
+  end
 end

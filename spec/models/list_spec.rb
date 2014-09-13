@@ -41,4 +41,8 @@ describe List do
 
     expect(subject.items.length).to eq 3
   end
+
+  it 'gets an item by item id' do
+      expect(subject.item potatoes.id).to eq potatoes
+  end
 end

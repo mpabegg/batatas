@@ -16,6 +16,10 @@ class List < Sequel::Model
     }
   end
 
+  def item(id)
+    items.find { |i| i.id == id}
+  end
+
   private
   def from_json(item)
     options = {product: Product.with_name(item['name']), amount: item['amount']}

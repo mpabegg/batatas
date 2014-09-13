@@ -8,3 +8,16 @@ post '/lists/:list_id/items/?' do
 
   status 201
 end
+
+post '/lists/:list_id/items/:item_id/bought' do
+  list = List[params[:list_id]]
+  halt 404 unless list
+
+  item = list.item params[:item_id].to_i
+  halt 404 unless item
+
+  item.buy
+
+  status 201
+  json item.to_json
+end
