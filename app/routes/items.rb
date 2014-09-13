@@ -21,3 +21,16 @@ post '/lists/:list_id/items/:item_id/bought' do
   status 201
   json item.to_json
 end
+
+delete '/lists/:list_id/items/:item_id/bought' do
+  list = List[params[:list_id]]
+  halt 404 unless list
+
+  item = list.item params[:item_id].to_i
+  halt 404 unless item
+
+  item.bought = false
+  item.save
+
+  json item.to_json
+end

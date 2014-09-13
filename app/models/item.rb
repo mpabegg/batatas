@@ -2,6 +2,8 @@ class Item < Sequel::Model
   many_to_one :list
   many_to_one :product
 
+  alias :bought? :bought
+
   def to_json
     {
         id: id,
@@ -16,7 +18,8 @@ class Item < Sequel::Model
     save
   end
 
-  def bought?
-    bought
+  def unbuy
+    set(bought: false)
+    save
   end
 end
