@@ -28,15 +28,8 @@ describe List do
 
     describe '/lists/:id' do
       context 'when list does not exist' do
-        it 'responds with not found' do
-          get '/lists/no_list'
-          expect(last_response.status).to be 404
-        end
-
-        it 'responds with empty body' do
-          get '/lists/no_list'
-          expect(last_response.body).to eq ''
-        end
+        before(:each) { get '/lists/no_list' }
+        it_behaves_like 'a request to an inexisting resource'
       end
 
       context 'when list exists' do
@@ -89,7 +82,7 @@ describe List do
       post '/lists', full_list_body, options
 
       expect(List.first.items).to be_like([Item.new(product: @potato, amount: 3, list: List.first, bought: false),
-                                       Item.new(product: @tomato, amount: 5, list: List.first, bought: true)])
+                                           Item.new(product: @tomato, amount: 5, list: List.first, bought: true)])
     end
 
     it 'responds with the created list' do

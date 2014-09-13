@@ -6,15 +6,8 @@ describe Product do
   describe 'GET /products/:id' do
     let(:batata) { Product.create(name: 'Batata') }
     context 'when product does not exist' do
-      it 'responds with not found' do
-        get '/products/something'
-        expect(last_response.status).to be 404
-      end
-
-      it 'responds with empty body' do
-        get '/products/something'
-        expect(last_response.body).to eq ''
-      end
+      before(:each) {get '/products/something'}
+      it_behaves_like 'a request to an inexisting resource'
     end
 
     context 'when product exists' do

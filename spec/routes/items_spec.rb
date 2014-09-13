@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 RSpec.shared_examples 'an item marked as bought' do
   it 'responds with created' do
     post "lists/#{list.id}/items/#{item.id}/bought"
@@ -46,17 +45,11 @@ describe Item do
 
   describe 'POST /lists/:list_id/items' do
     context 'when list does not exist' do
-      it 'responds with not found' do
+      before :each do
         post '/lists/blah/items/', '{}', options
-
-        expect(last_response.status).to eq 404
       end
 
-      it 'responds with empty body' do
-        post '/lists/blah/items/', '{}', options
-
-        expect(last_response.body).to eq ''
-      end
+      it_behaves_like 'a request to an inexisting resource'
     end
 
     context 'when list exists' do
@@ -91,31 +84,30 @@ describe Item do
 
   describe 'POST /lists/:list_id/items/:item_id/bought' do
     context 'when list does not exist' do
-      it 'responds with not found' do
-        post 'lists/no/items/meh/bought'
-        expect(last_response.status).to eq 404
-      end
+      before(:each) { post 'lists/999/items/meh/bought' }
+      it_behaves_like 'a request to an inexisting resource'
     end
 
     context 'when list exists' do
       let(:list) { List.create(name: 'Cheesecake') }
 
       context 'and item does not exist' do
-        it 'responds with not found' do
-          post "lists/#{list.id}/items/meh/bought"
-          expect(last_response.status).to eq 404
-        end
+        before(:each) { post "lists/#{list.id}/items/999/bought" }
+        it_behaves_like 'a request to an inexisting resource'
       end
-
 
       context 'and item exists' do
         let(:item) { Item.new(product: Product.create(name: 'Banana'), amount: 3) }
 
         context 'when item is not in the list' do
-          it 'responds with not found' do
+          before(:each) do
+            other_list = List.create(name: 'Some other list')
+            other_list.add_item(item)
+            other_list.save
+
             post "lists/#{list.id}/items/#{item.id}/bought"
-            expect(last_response.status).to eq 404
           end
+          it_behaves_like 'a request to an inexisting resource'
         end
 
         context 'when item is on the list' do
@@ -147,31 +139,30 @@ describe Item do
 
   describe 'DELETE /lists/:list_id/items/:item_id/bought' do
     context 'when list does not exist' do
-      it 'responds with not found' do
-        delete 'lists/no/items/meh/bought'
-        expect(last_response.status).to eq 404
-      end
+      before(:each) { delete 'lists/no/items/meh/bought' }
+      it_behaves_like 'a request to an inexisting resource'
     end
 
     context 'when list exists' do
       let(:list) { List.create(name: 'Cheesecake') }
 
       context 'and item does not exist' do
-        it 'responds with not found' do
-          delete "lists/#{list.id}/items/meh/bought"
-          expect(last_response.status).to eq 404
-        end
+        before(:each) { delete "lists/#{list.id}/items/meh/bought" }
+        it_behaves_like 'a request to an inexisting resource'
       end
-
 
       context 'and item exists' do
         let(:item) { Item.new(product: Product.create(name: 'Banana'), amount: 3) }
 
         context 'when item is not in the list' do
-          it 'responds with not found' do
+          before(:each) do
+            other_list = List.create(name: 'Some other list')
+            other_list.add_item(item)
+            other_list.save
+
             delete "lists/#{list.id}/items/#{item.id}/bought"
-            expect(last_response.status).to eq 404
           end
+          it_behaves_like 'a request to an inexisting resource'
         end
 
         context 'when item is on the list' do
