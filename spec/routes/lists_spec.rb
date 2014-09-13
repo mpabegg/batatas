@@ -88,7 +88,7 @@ describe List do
     it 'adds items to the list' do
       post '/lists', full_list_body, options
 
-      expect(List.first.items).to eq ([Item.new(product: @potato, amount: 3, list: List.first, bought: false),
+      expect(List.first.items).to be_like([Item.new(product: @potato, amount: 3, list: List.first, bought: false),
                                        Item.new(product: @tomato, amount: 5, list: List.first, bought: true)])
     end
 
@@ -105,8 +105,8 @@ def full_list_body
     "id": 1,
     "name": "A Shopping List",
     "items": [
-      { "name": "potato", "amount": 3, "bought": false },
-      { "name": "tomato", "amount": 5, "bought": true }
+      { "id": 1, "name": "potato", "amount": 3, "bought": false },
+      { "id": 2, "name": "tomato", "amount": 5, "bought": true }
     ]
   }'
 end
@@ -116,8 +116,8 @@ def created_response
       "id" => 1,
       "name" => "A Shopping List",
       "items" => [
-          {"name" => "potato", "amount" => 3, "bought" => false},
-          {"name" => "tomato", "amount" => 5, "bought" => true}]
+          {"id" => 1, "name" => "potato", "amount" => 3, "bought" => false},
+          {"id" => 2, "name" => "tomato", "amount" => 5, "bought" => true}]
   }
 end
 

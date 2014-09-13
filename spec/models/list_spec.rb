@@ -35,6 +35,7 @@ describe List do
 
     expect(subject.items.length).to eq 3
   end
+
   it 'adds a single item' do
     subject.add({"amount" => 1, "bought" => false, "name" => "asdgsadg"})
 

@@ -43,14 +43,13 @@ describe Item do
             Item.new(list: list, product: cream_cheese, amount: "1", bought: false),
             Item.new(list: list, product: lime, amount: "3", bought: false)
         ]
-        expect(list.items).to eq items
+        expect(list.items).to be_like(items)
       end
     end
   end
 end
 
 private
-
 
 def post_body
   JSON.generate([

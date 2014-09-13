@@ -13,6 +13,7 @@ describe Product do
 
       it 'finds the it' do
         expect(Product.with_name(name).id).to eq @potatoe.id
+        expect(Product.count).to eq 1
       end
     end
 
