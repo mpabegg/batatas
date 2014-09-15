@@ -29,8 +29,7 @@ delete '/lists/:list_id/items/:item_id/bought' do
   item = list.item params[:item_id].to_i
   halt 404 unless item
 
-  item.bought = false
-  item.save
+  item.unbuy
 
   json item.to_json
 end

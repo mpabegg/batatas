@@ -9,9 +9,7 @@ describe List do
   end
 
   describe 'GET' do
-
     let (:list) { List.create(name: 'A Shopping List') }
-
     describe '/lists' do
       it 'responds with success' do
         get '/lists'
@@ -88,6 +86,23 @@ describe List do
     it 'responds with the created list' do
       post '/lists', full_list_body, options
       expect(JSON.parse(last_response.body)).to eq created_response
+    end
+  end
+
+  describe 'DELETE /lists/:list_id' do
+    context 'when the list does not exist' do
+      before(:each) { delete '/lists/999' }
+      it_behaves_like 'a request to an inexisting resource'
+    end
+
+    context 'when list exists' do
+
+      let(:list) { List.create(name: 'A Shopping List') }
+      let(:subject) { delete "/lists/#{list.id}" }
+
+      it { is_expected.to be_ok }
+
+      it 'deletes the list'
     end
   end
 end

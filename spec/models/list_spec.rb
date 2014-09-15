@@ -10,7 +10,7 @@ describe List do
   let(:subject) { List.new(name: list_name) }
 
   before :each do
-    Time.stub(:now).and_return(april_1st)
+    allow(Time).to receive(:now).and_return(april_1st)
     subject.save
 
     subject.add_item(potatoes)

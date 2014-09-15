@@ -1,43 +1,11 @@
 require 'spec_helper'
 
 RSpec.shared_examples 'an item marked as bought' do
-  it 'responds with created' do
-    post "lists/#{list.id}/items/#{item.id}/bought"
-    expect(last_response.status).to eq 201
-  end
 
-  it 'marks the item as bought' do
-    post "lists/#{list.id}/items/#{item.id}/bought"
-    expect(item.reload).to be_bought
-  end
-
-  it 'responds with the item' do
-    expected_response = JSON.generate(item.to_json.merge(bought: true))
-
-    post "lists/#{list.id}/items/#{item.id}/bought"
-
-    expect(last_response.body).to eq expected_response
-  end
 end
 
 RSpec.shared_examples 'an item marked as not bought' do
-  it 'responds with success' do
-    delete "lists/#{list.id}/items/#{item.id}/bought"
-    expect(last_response.status).to eq 200
-  end
 
-  it 'marks the item as bought' do
-    delete "lists/#{list.id}/items/#{item.id}/bought"
-    expect(item.reload).not_to be_bought
-  end
-
-  it 'responds with the item' do
-    expected_response = JSON.generate(item.to_json.merge(bought: false))
-
-    delete "lists/#{list.id}/items/#{item.id}/bought"
-
-    expect(last_response.body).to eq expected_response
-  end
 end
 
 describe Item do
@@ -71,7 +39,6 @@ describe Item do
         lime = Product.create(name: 'Lime')
 
         post "/lists/#{list.id}/items/", post_body, options
-
 
         items = [
             Item.new(list: list, product: cream_cheese, amount: "1", bought: false),
@@ -152,7 +119,7 @@ describe Item do
       end
 
       context 'and item exists' do
-        let(:item) { Item.new(product: Product.create(name: 'Banana'), amount: 3) }
+        let(:item) { Item.new(product: Product.create(name: 'Banana'), amount: 3, bought: false) }
 
         context 'when item is not in the list' do
           before(:each) do
@@ -171,12 +138,22 @@ describe Item do
           end
 
           context 'and item is not yet bought' do
-            before :each do
-              item.bought = false
-              item.save
+            let(:item_response) { JSON.generate(item.to_json.merge(bought: true)) }
+
+            before(:each) { post "lists/#{list.id}/items/#{item.id}/bought" }
+
+            it 'responds with the item' do
+              expect(last_response.body).to eq item_response
             end
 
-            it_behaves_like 'an item marked as not bought'
+            it 'responds with created' do
+              expect(last_response.status).to eq 201
+            end
+
+            it 'marks the item as bought' do
+              expect(item.reload).to be_bought
+            end
+
           end
 
           context 'and item is already bought' do
@@ -185,7 +162,23 @@ describe Item do
               item.save
             end
 
-            it_behaves_like 'an item marked as not bought'
+            it 'responds with success' do
+              delete "lists/#{list.id}/items/#{item.id}/bought"
+              expect(last_response.status).to eq 200
+            end
+
+            it 'marks the item as bought' do
+              delete "lists/#{list.id}/items/#{item.id}/bought"
+              expect(item.reload).not_to be_bought
+            end
+
+            it 'responds with the item' do
+              expected_response = JSON.generate(item.to_json.merge(bought: false))
+
+              delete "lists/#{list.id}/items/#{item.id}/bought"
+
+              expect(last_response.body).to eq expected_response
+            end
           end
         end
       end

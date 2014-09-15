@@ -21,3 +21,7 @@ group :development do
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard'
 end
+
+group :test, :development do
+  gem 'fuubar'
+end

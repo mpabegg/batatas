@@ -16,6 +16,11 @@ post '/lists/?' do
   list.add(params['items']) if params['items']
 
   headers({'Location' => "/lists/#{list.id}"})
-      status 201
+  status 201
   json list.to_json
+end
+
+delete '/lists/:id' do
+  list = List[params[:id]]
+  halt 404 unless list
 end
