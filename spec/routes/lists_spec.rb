@@ -20,7 +20,7 @@ describe List do
         add_items_to_list
 
         get '/lists'
-        expect(JSON.parse(last_response.body)).to eq JSON.parse("[#{full_list_body}]")
+        expect(last_response.body).to be_a_json_like "[#{full_list_body}]"
       end
     end
 
@@ -38,10 +38,11 @@ describe List do
         end
 
         context 'and is empty' do
+          let(:empty_list) { '{"id": 1, "name" : "A Shopping List", "items": [] }' }
           it 'responds with list name and no items' do
             get "/lists/#{list.id}"
 
-            expect(JSON.parse(last_response.body)).to eq JSON.parse('{"id": 1, "name" : "A Shopping List", "items": [] }')
+            expect(last_response.body).to be_a_json_like empty_list
           end
         end
 
@@ -53,7 +54,7 @@ describe List do
           it 'responds with every item' do
             get "/lists/#{list.id}"
 
-            expect(JSON.parse(last_response.body)).to eq JSON.parse(full_list_body)
+            expect(last_response.body).to be_a_json_like full_list_body
           end
         end
       end
@@ -85,7 +86,7 @@ describe List do
 
     it 'responds with the created list' do
       post '/lists', full_list_body, options
-      expect(JSON.parse(last_response.body)).to eq created_response
+      expect(last_response.body).to be_a_json_like full_list_body
     end
   end
 
@@ -117,16 +118,6 @@ def full_list_body
       { "id": 2, "name": "tomato", "amount": 5, "bought": true }
     ]
   }'
-end
-
-def created_response
-  {
-      "id" => 1,
-      "name" => "A Shopping List",
-      "items" => [
-          {"id" => 1, "name" => "potato", "amount" => 3, "bought" => false},
-          {"id" => 2, "name" => "tomato", "amount" => 5, "bought" => true}]
-  }
 end
 
 def add_items_to_list
