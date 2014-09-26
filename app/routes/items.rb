@@ -15,6 +15,9 @@ delete '/lists/:list_id/items/:item_id/?' do
 
   item = list.item params[:item_id].to_i
   halt 404 unless item
+
+  item.destroy
+  ''
 end
 
 post '/lists/:list_id/items/:item_id/bought/?' do

@@ -72,6 +72,24 @@ describe Item do
         end
 
         context 'when item is on the list' do
+          before(:each) do
+            list.add_item(item)
+
+            delete "lists/#{list.id}/items/#{item.id}"
+          end
+
+          it 'responds with success' do
+            expect(last_response.status).to eq 200
+          end
+
+          it 'responds with an empty dody' do
+            expect(last_response.body).to eq ''
+          end
+
+          it 'removes the list from list' do
+            # expect(list.items).to eq []
+            expect(list).to be_empty
+          end
         end
       end
     end

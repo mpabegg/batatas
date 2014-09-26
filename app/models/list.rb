@@ -7,7 +7,6 @@ class List < Sequel::Model
     save
   end
 
-
   def to_json
     {
         id: id,
@@ -18,6 +17,10 @@ class List < Sequel::Model
 
   def item(id)
     items.find { |i| i.id == id}
+  end
+
+  def empty?
+    items.empty?
   end
 
   private
