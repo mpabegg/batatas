@@ -97,13 +97,34 @@ describe List do
     end
 
     context 'when list exists' do
-
       let(:list) { List.create(name: 'A Shopping List') }
-      let(:subject) { delete "/lists/#{list.id}" }
 
-      it { is_expected.to be_ok }
+      it 'responds with success' do
+        delete "/lists/#{list.id}"
+        expect(last_response.status).to eq 200
+      end
 
-      it 'deletes the list'
+      it 'deletes the list' do
+        expect(List[list.id].name).to eq list.name
+
+        delete "/lists/#{list.id}"
+
+        expect(List[list.id]).to be_nil
+      end
+
+      context 'and has items on it' do
+        let(:batata) { Product.create(name: 'batata') }
+
+        before(:each) { list.add_item(Item.new(product: batata, amount: 4)) }
+
+        it 'destroy the items on the list' do
+          batata_id = list.items.first.id
+          expect(list.items.length).to eq 1
+          delete "/lists/#{list.id}"
+
+          expect(Item[batata_id]).to be_nil
+        end
+      end
     end
   end
 end

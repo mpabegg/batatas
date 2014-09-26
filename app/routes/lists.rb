@@ -23,4 +23,7 @@ end
 delete '/lists/:id' do
   list = List[params[:id]]
   halt 404 unless list
+
+  list.items.each(&:destroy)
+  list.destroy
 end
