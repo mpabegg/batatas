@@ -9,7 +9,15 @@ post '/lists/:list_id/items/?' do
   status 201
 end
 
-post '/lists/:list_id/items/:item_id/bought' do
+delete '/lists/:list_id/items/:item_id/?' do
+  list = List[params[:list_id]]
+  halt 404 unless list
+
+  item = list.item params[:item_id].to_i
+  halt 404 unless item
+end
+
+post '/lists/:list_id/items/:item_id/bought/?' do
   list = List[params[:list_id]]
   halt 404 unless list
 
@@ -22,7 +30,7 @@ post '/lists/:list_id/items/:item_id/bought' do
   json item.to_json
 end
 
-delete '/lists/:list_id/items/:item_id/bought' do
+delete '/lists/:list_id/items/:item_id/bought/?' do
   list = List[params[:list_id]]
   halt 404 unless list
 

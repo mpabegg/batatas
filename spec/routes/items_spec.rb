@@ -41,6 +41,42 @@ describe Item do
     end
   end
 
+  describe 'DELETE /lists/:list_id/items/:item_id' do
+    context 'when list does not exist' do
+      before :each do
+        delete '/lists/blah/items/some_item', options
+      end
+
+      it_behaves_like 'a request to an inexisting resource'
+    end
+
+    context 'when list exists' do
+      let(:list) { List.create(name: 'Cheesecake') }
+      context 'and item does not exist' do
+        before(:each) { delete "lists/#{list.id}/items/999" }
+        it_behaves_like 'a request to an inexisting resource'
+      end
+
+      context 'and item exists' do
+        let(:item) { Item.new(product: Product.create(name: 'Banana'), amount: 3) }
+
+        context 'when item is not in the list' do
+          before(:each) do
+            other_list = List.create(name: 'Some other list')
+            other_list.add_item(item)
+            other_list.save
+
+            delete "lists/#{list.id}/items/#{item.id}"
+          end
+          it_behaves_like 'a request to an inexisting resource'
+        end
+
+        context 'when item is on the list' do
+        end
+      end
+    end
+  end
+
   describe 'POST /lists/:list_id/items/:item_id/bought' do
     context 'when list does not exist' do
       before(:each) { post 'lists/999/items/meh/bought' }
