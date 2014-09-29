@@ -87,7 +87,6 @@ describe Item do
           end
 
           it 'removes the list from list' do
-            # expect(list.items).to eq []
             expect(list).to be_empty
           end
         end
