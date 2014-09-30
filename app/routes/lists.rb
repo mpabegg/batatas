@@ -26,4 +26,5 @@ delete '/lists/:id' do
 
   list.items.each(&:destroy)
   list.destroy
+  ''
 end

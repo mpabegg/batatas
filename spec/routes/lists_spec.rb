@@ -104,6 +104,11 @@ describe List do
         expect(last_response.status).to eq 200
       end
 
+      it 'responds with empty body' do
+        delete "/lists/#{list.id}"
+        expect(last_response.body).to be_empty
+      end
+
       it 'deletes the list' do
         expect(List[list.id].name).to eq list.name
 
